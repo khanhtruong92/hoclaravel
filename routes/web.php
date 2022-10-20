@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ExampleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +18,9 @@ use App\Http\Controllers\HomeController;
 */
 
 // Route chuyển hướng đến HomeController để xử lý
-Route::get('/index', [HomeController::class, 'index']);
+// Route::get('/index', [HomeController::class, 'index']);
+Route::get('/examples', [ExampleController::class, 'index']);
+Route::get('/books', [BookController::class, 'index']);
 
 // Route::get('/', function() {
     //     return view('welcome');
