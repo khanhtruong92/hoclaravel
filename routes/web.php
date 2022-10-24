@@ -1,10 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CategoriesController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ExampleController;
+use App\Http\Controllers\UserController;
+use PHPUnit\TextUI\XmlConfiguration\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,86 +23,36 @@ use App\Http\Controllers\ExampleController;
 
 // Route chuyển hướng đến HomeController để xử lý
 // Route::get('/index', [HomeController::class, 'index']);
-Route::get('/examples', [ExampleController::class, 'index']);
-Route::get('/books', [BookController::class, 'index']);
+// Route::get('/examples', [ExampleController::class, 'index']);
+// Route::get('/books', [BookController::class, 'index']);
 
-// Route::get('/', function() {
-    //     return view('welcome');
-    // });
+Route::resource('users', UserController::class);
 
-// Route::get('/index?view=other', [HomeController::class, 'index']);
-// Route::get('/index?view=welcome', [HomeController::class, 'welcome']);
+// Client Routes
+Route::prefix('categories')->group(function () {
+    // Danh sach chuyen muc
+    Route::get('/', [CategoriesController::class, 'index'])->name('categories.list');
 
-// Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
-// Route::get('/tin-tuc', 'App\Http\Controllers\HomeController@getNews')->name('news');
-// Route::get('chuyen-muc', [HomeController::class, 'getCategories']);
+    // Lay chi tiet mot chuyen muc (Ap dung show form sua chuyen muc)
+    Route::get('/edit/{id}', [CategoriesController::class, 'getCategory'])->name('categories.edit');
 
-// Route::get('/unicode', function(){
-//     return view('home');
-// });
+    // Xu ly update chuyen muc 
+    Route::post('/edit/{id}', [CategoriesController::class, 'updateCategory']);
+    
+    // Hien thi form add du lieu
+    Route::get('/add', [CategoriesController::class, 'addCategory'])->name('categories.add');
 
-// Route::get('/san-pham', function(){
-//     return view('product');
-// });
+    // Xu ly chuyen muc
+    Route::post('/add', [CategoriesController::class, 'handleAddCategory']);
 
-// Route::get('/', function() {
-//     return 'Home page';
-// });
+    // Xoa chuyen muc
+    Route::delete('/delete/{id}', [CategoriesController::class, 'deleteCategory'])->name('categories.delete');
+});
 
-// Route::get('unicode', function() {
-//     return view('form');
-//     // return 'Phương thức Post của path /unicode';
-// });
+// Admin Routes
+Route::middleware('auth.admin')->prefix('admin')->group(function () {
+    Route::resource('products', ProductController::class)->middleware('auth.admin.product');
+});
 
-// Route::post('unicode', function() {
-//     return 'Phương thức Post của path /unicode';
-// });
-
-// Route::put('unicode', function() {
-//     return 'Phương thức Put của path /unicode';
-// });
-
-// Route::delete('unicode', function() {
-//     return 'Phương thức Delete của path /unicode';
-// });
-
-// Route::patch('unicode', function() {
-//     return 'Phương thức Patch của path /unicode';
-// });
-
-// Route::get('show-form', function() {
-//     return view('form');
-// });
-
-// Route::redirect('unicode', 'show-form');
-
-// Route::view('/', 'home');
-
-// Route::prefix('admin')->group(function() {
-//     Route::get('show-form', function() {
-//     return view('form');
-//     })->name('admin.show-form');
-
-//     Route::get('unicode', function() {
-//     return 'Phương thức Post của path /unicode';
-//     });
-
-//     Route::get('/products/{slug?}-{id?}.html', function($slug = null, $id = null) {
-//         $content = 'Phuong thuc voi tham so: ';
-//         $content .= 'id = ' . $id . '<br>';
-//         $content .= 'slug = ' . $slug;
-//         return $content;
-//     }) 
-//     -> where(
-//         [
-//             'slug' => '.+',
-//             'id' => '\d+'
-//         ]
-//     )
-//     ->name('admin.tintuc')
-//     ;
-// });
-
-// Route::get('/hello-world', function() {
-//     return 'Hello World';
-// });
+Route::get('/', [HomeController::class, 'index']);
+Route::get('san-pham/{id}', [HomeController::class, 'getProductDetail']);
