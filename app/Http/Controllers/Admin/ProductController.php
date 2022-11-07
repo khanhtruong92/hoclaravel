@@ -15,7 +15,7 @@ class ProductController extends Controller
     public function index()
     {
         //
-        return 'Hello';
+        return 'Danh sach san pham';
     }
 
     /**

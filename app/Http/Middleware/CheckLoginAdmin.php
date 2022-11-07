@@ -16,7 +16,23 @@ class CheckLoginAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        echo 'Middleware require';
+        // echo 'Middleware require';
+        // echo "Hello";
+
+        if (!$this->isLogin()) {
+            return redirect(route('home'));
+        }
+
+        // dd($request);
+        // if ($request->is('admin/products')) {
+        //     echo '<h1>Khu vuc quan tri</h1>';
+        // }
+
         return $next($request);
+    }
+
+    public function isLogin() 
+    {
+        return true;
     }
 }

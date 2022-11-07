@@ -25,11 +25,13 @@ use PHPUnit\TextUI\XmlConfiguration\Group;
 // Route::get('/index', [HomeController::class, 'index']);
 // Route::get('/examples', [ExampleController::class, 'index']);
 // Route::get('/books', [BookController::class, 'index']);
+Route::resource('books', BookController::class);
 
 Route::resource('users', UserController::class);
 
+
 // Client Routes
-Route::prefix('categories')->group(function () {
+Route::middleware('auth.admin')->prefix('categories')->group(function () {
     // Danh sach chuyen muc
     Route::get('/', [CategoriesController::class, 'index'])->name('categories.list');
 
@@ -47,6 +49,12 @@ Route::prefix('categories')->group(function () {
 
     // Xoa chuyen muc
     Route::delete('/delete/{id}', [CategoriesController::class, 'deleteCategory'])->name('categories.delete');
+
+    // Hien thi file upload
+    Route::get('/upload', [CategoriesController::class, 'getFile']);
+
+    // Xu ly file
+    Route::post('/upload', [CategoriesController::class, 'handleFile'])->name('categories.upload');
 });
 
 // Admin Routes
@@ -54,5 +62,8 @@ Route::middleware('auth.admin')->prefix('admin')->group(function () {
     Route::resource('products', ProductController::class)->middleware('auth.admin.product');
 });
 
-Route::get('/', [HomeController::class, 'index']);
-Route::get('san-pham/{id}', [HomeController::class, 'getProductDetail']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('san-pham', [HomeController::class, 'product'])->name('product');
+Route::get('them-san-pham', [HomeController::class, 'getAdd']);
+Route::post('them-san-pham', [HomeController::class, 'postAdd']);
+Route::put('them-san-pham', [HomeController::class, 'putAdd']);

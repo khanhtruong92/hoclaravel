@@ -19,11 +19,10 @@ return new class extends Migration
         // name: varchar(50), required
         // description: varchar(255), optional
         
-        Schema::create('books', function (Blueprint $table) {
+        Schema::create('book1', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 50);
             $table->string('description')->nullable();
-            $table->string('author', 100)->nullable();
             $table->timestamps();
         });
     }
@@ -35,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('books');
+        Schema::dropIfExists('book1');
     }
 };

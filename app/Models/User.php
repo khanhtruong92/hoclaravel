@@ -15,7 +15,7 @@ class User extends Authenticatable
 
     /**
      * The attributes that are mass assignable.
-     *
+     * Các thuộc tính có thể gán hàng loạt
      * @var array<int, string>
      */
     protected $fillable = [
@@ -26,7 +26,7 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be hidden for serialization.
-     *
+     * Các thuộc tính cần được ẩn để tuần tự hóa
      * @var array<int, string>
      */
     protected $hidden = [
@@ -36,7 +36,7 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be cast.
-     *
+     * Các thuộc tính nên được truyền
      * @var array<string, string>
      */
     protected $casts = [

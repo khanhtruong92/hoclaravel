@@ -34,10 +34,10 @@ class HomeController extends Controller
         return 'Chuyen muc doi song';
     }
 
-    public function index()
-    {
-        $title = 'Học lập trình web tại Unicode';
-        $content = 'Học Laravel 9.x';
+    // public function index()
+    // {
+        // $title = 'Học lập trình web tại Unicode';
+        // $content = 'Học Laravel 9.x';
         // $dataView = [
         //     'titleData' => $title,
         //     'contentData' => $content
@@ -45,11 +45,42 @@ class HomeController extends Controller
         // return view('home', $dataView);
         // return view('home', compact('title', 'content'));
         // return view('home')->with(['title' => $title, 'content' => $content]);
-        return View::make('home', compact('title', 'content'));
-    }
+        // return View::make('home', compact('title', 'content'));
+    // }
 
     public function getProductDetail($id) 
     {
         return view('clients.products.detail', compact('id'));
+    }
+
+    public $data =[];
+
+    public function index()
+    {
+        $this->data['title'] = 'Đào tạo lập trình web';
+        return view('clients.home', $this->data);
+    }
+
+    public function product()
+    {
+        $this->data['title'] = 'San pham';
+        return view('clients.products', $this->data);
+    }
+    
+    public function getAdd()
+    {
+        $this->data['title'] = 'Them san pham';
+        return view('clients.add', $this->data);
+    }
+
+    // public function postAdd(Request $request)
+    // {
+    //     return dd($request);
+    // }
+
+    public function putAdd(Request $request)
+    {
+        return 'phuong thuc pust';
+        return dd($request);
     }
 }

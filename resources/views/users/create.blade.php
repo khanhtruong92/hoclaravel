@@ -12,10 +12,15 @@
         </div>
     </div>
 
-    @if ($errors->any())
+    {{-- Hiển thị error thông thường --}}
+    {{-- Sử dụng object được cung cấp sẵn của blade template là $errors, tất cả các lỗi validation được sinh ra sẽ lưu vào biến này. Ta dùng biến này để hiển thị dữ liệu --}}
+
+    {{-- Sử dụng hàm any() để kiểm tra xem có lỗi nào không --}}
+    @if ($errors->any()) 
         <div class="alert alert-danger">
             <strong>Error!</strong> 
             <ul>
+                {{-- Sử dụng hàm all() để lấy toàn bộ lỗi--}}
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach

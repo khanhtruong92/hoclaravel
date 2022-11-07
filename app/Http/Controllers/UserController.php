@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -23,6 +22,7 @@ class UserController extends Controller
 
         // Homework 1, park Create CURD App
         $users = DB::table('users')->orderBy('id', 'asc')->get();
+        // return dd($users);
         return view('users.index', compact('users'));
     }
 
@@ -47,14 +47,13 @@ class UserController extends Controller
     {
         //
         $request->validate([
-            // 'name' => 'Taylor Otwell',
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8'
         ]);
 
-        // return dd( $request);
         User::create($request->all());
+        // DB::table('users')->insert($request->all);
 
         return redirect()->route('users.index')
             ->with('success', 'User created successfully.');
@@ -80,8 +79,9 @@ class UserController extends Controller
     public function edit(User $user)
     {
         //
-        return view('users.edit', compact('user'));
+        // $user = User::where('id', $id)->first();
         // return dd($user);
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -93,11 +93,15 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        // return dd($user);
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+            // 'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'required|min:8'
         ]);
+        // return dd($request);
+        // return dd($user->id);
         $user->update($request->all());
 
         return redirect()->route('users.index')

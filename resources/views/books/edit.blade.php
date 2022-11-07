@@ -1,13 +1,17 @@
-@extends('users.layout')
+@extends('books.layout')
+
+@section('title')
+    Edit Book
+@endsection
 
 @section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Edit User</h2>
+                <h2>Edit Book</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="/users" title="Go back"> <i class="fas fa-backward "></i> </a>
+                <a class="btn btn-primary" href="/books" title="Go back"> <i class="fas fa-backward "></i> </a>
             </div>
         </div>
     </div>
@@ -23,8 +27,7 @@
         </div>
     @endif
 
-    <form action="/users/{{$user->id}}" method="POST">
-        {{-- <form action="/users/1" method="POST"> --}}
+    <form action="/books/{{$book->id}}" method="POST">
         @csrf
         @method('PUT')
 
@@ -32,23 +35,23 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Name:</strong>
-                    <input type="text" name="name" class="form-control" placeholder="Name" value="{{ $user->name }}">
+                    <input type="text" name="name" class="form-control" placeholder="Name" value="{{ $book->name }}">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Email:</strong>
-                    <input type="email" name="email" class="form-control" placeholder="Email" value="{{ $user->email }}">
+                    <strong>Description:</strong>
+                    <input type="text" name="description" class="form-control" placeholder="Description" value="{{ $book->description }}">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Password:</strong>
-                    <input type="password" name="password" class="form-control" placeholder="Password" value="*********">
+                    <strong>Author:</strong>
+                    <input type="text" name="author" class="form-control" placeholder="Author" value="{{ $book->author }}">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Edit</button>
             </div>
         </div>
 
